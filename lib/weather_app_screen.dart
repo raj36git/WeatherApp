@@ -1,11 +1,32 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:weather_app/secrets_screen.dart';
 import 'additional_info.dart';
 import 'hourly_weather_forecast.dart';
+import 'package:http/http.dart' as http;
 
-class WeatherAppScreen extends StatelessWidget {
+class WeatherAppScreen extends StatefulWidget {
   const WeatherAppScreen({super.key});
+
+  @override
+  State<WeatherAppScreen> createState() => _WeatherAppScreenState();
+}
+
+class _WeatherAppScreenState extends State<WeatherAppScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentWeather();
+  }
+  Future getCurrentWeather() async {
+    String cityName = "London";
+   final res = await http.get(Uri.parse('api.openweathermap.org/data/2.5/weather?q=$cityName,uk&APPID=$openWeatherAPIKey',)
+   );
+   print(res.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +51,7 @@ class WeatherAppScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.blueAccent.shade200,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(
@@ -50,25 +72,25 @@ class WeatherAppScreen extends StatelessWidget {
                       sigmaY: 9,
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(18.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Column(
                         children: [
                           Text(
-                            '300 °F',
+                            '300 K',
                             style: TextStyle(
-                              fontSize: 45,
+                              fontSize: 42,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 5,
                           ),
                           Icon(
                             Icons.cloud,
-                            size: 99,
+                            size: 90,
                           ),
                           SizedBox(
-                            height: 13,
+                            height: 8,
                           ),
                           Text(
                             'Rain',
@@ -84,7 +106,7 @@ class WeatherAppScreen extends StatelessWidget {
             ),
 
             const SizedBox(
-              height: 18,
+              height: 14,
             ),
 
             const Align(
@@ -92,13 +114,13 @@ class WeatherAppScreen extends StatelessWidget {
               child: Text(
                 'Weather Forecast',
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 21,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 5,
             ),
 
             //weather forecast
@@ -106,17 +128,37 @@ class WeatherAppScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  HourlyForecast(),
-                  HourlyForecast(),
-                  HourlyForecast(),
-                  HourlyForecast(),
-                  HourlyForecast(),
+                  HourlyForecast(
+                    time: '00:00',
+                    icon: Icons.cloud,
+                    temperature: "300.17",
+                  ),
+                  HourlyForecast(
+                    time: '03:00',
+                    icon: Icons.sunny,
+                    temperature: "302.11",
+                  ),
+                  HourlyForecast(
+                    time: '06:00',
+                    icon: Icons.sunny,
+                    temperature: "312.17",
+                  ),
+                  HourlyForecast(
+                    time: '09:00',
+                    icon: Icons.sunny,
+                    temperature: "302.22",
+                  ),
+                  HourlyForecast(
+                    time: '12:00',
+                    icon: Icons.cloud,
+                    temperature: "289.17",
+                  ),
                 ],
               ),
             ),
 
             const SizedBox(
-              height: 18,
+              height: 14,
             ),
 
             //additional info
@@ -125,22 +167,34 @@ class WeatherAppScreen extends StatelessWidget {
               child: Text(
                 'Additional Information',
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 21,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
 
             const SizedBox(
-              height: 14,
+              height: 8,
             ),
 
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AdditionalInformation(),
-                AdditionalInformation(),
-                AdditionalInformation(),
+                AdditionalInformation(
+                  icon: Icons.water_drop,
+                  label: 'Humidity',
+                  value: '91',
+                ),
+                AdditionalInformation(
+                  icon: Icons.air,
+                  label: 'Wind Speed',
+                  value: '7.5',
+                ),
+                AdditionalInformation(
+                  icon: Icons.beach_access,
+                  label: 'Pressure',
+                  value: '1000',
+                ),
               ],
             )
           ],

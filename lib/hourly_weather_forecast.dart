@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
 
 class HourlyForecast extends StatelessWidget {
-  const HourlyForecast({super.key});
+  final String time;
+  final IconData icon;
+  final String temperature;
+
+  const HourlyForecast({
+    super.key,
+    required this.time,
+    required this.icon,
+    required this.temperature,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return  Card(
       elevation: 10,
       child: Padding(
-        padding: EdgeInsets.all(14.0),
+        padding:const EdgeInsets.all(18.0),
         child: Column(
           children: [
             Text(
-              '09:00',
-              style: TextStyle(
+              time, //it should be dynamic
+              style:const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
-              height: 9,
+            const SizedBox(
+              height: 5,
             ),
             Icon(
-              Icons.cloud,
+              icon,
               size: 54,
             ),
-            SizedBox(
-              height: 9,
+            const SizedBox(
+              height: 6,
             ),
             Text(
-              '300.17',
-              style: TextStyle(
+              temperature, //it should be dynamic
+              style:const TextStyle(
                 fontSize: 12,
                 // fontWeight: FontWeight.bold,
               ),
@@ -41,4 +50,3 @@ class HourlyForecast extends StatelessWidget {
     );
   }
 }
-
